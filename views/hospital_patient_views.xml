@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- View hospital.patient View List -->
+    <record id="view_hospital_patient_list" model="ir.ui.view">
+        <field name="name">view.hospital.patient.list</field>
+        <field name="model">hospital.patient</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="patient_name"/>
+                <field name="name_seq"/>
+                <field name="age_group"/>
+                <field name="patient_age"/>
+                <field name="gender"/>
+                <field name="notes"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- View hospital.patient form -->
+    <record id="view_hospital_patient_form" model="ir.ui.view">
+        <field name="name">view.hospital.patient.form</field>
+        <field name="model">hospital.patient</field>
+        <field name="arch" type="xml">
+            <form string="Hospital Patient">
+                 <header>
+                    <button name="hospital.create_appointment_wizard" string="Create Appointment" type="action" class="oe_highlight" />
+                    <button name="print_report" type="object" string="Print" class="oe_highlight"/>
+                    <button name="action_send_card" type="object"  string="Send By Email" class="oe_highlight"/> <!-- groups="hospital.group_hospital_manager" -->
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="open_patient_appointments" class="oe_stat_button" type="object" icon="fa-calendar">
+                            <field string="Appointments" name="appointment_count" widget="statinfo"/>
+                        </button>
+                        
+                    </div>
+                     <field name="image" widget="image" class="oe_avatar"/>
+                     <div class="oe_title">
+                        <h1>
+                            <field name="patient_name" string="Nom du patient" placeholder="Patient name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="patient_name_upper" groups="base.group_no_one"/>
+                            <field name="name"/>
+                            <field name="patient_age" options='{"type": "number", "step": 10}'/>
+                            <field name="patient_age2" widget="float_toggle" options='{"range": [0, 1, 2, 3, 4, 5, 6, 7,  8, 9, 10, 11]}'/>
+                            <field name="gender"/>
+                            <field name="doctor_id"/>
+                            <field name="doctor_gender"/>
+                            <field name="user_id"/>
+                            <!--<field name="xml_id"/>-->
+                        </group>
+                        <group>
+                            <field name="name" groups="hospital.group_hospital_manager"/>
+                            <field name="email_id"/>
+                            <field name="age_group"/>
+                            <field name="name_seq" readonly="1"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="notes"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- View hospital.patient search -->
+    <record id="view_hospital_patient_search" model="ir.ui.view">
+        <field name="name">view.hospital.patient.search</field>
+        <field name="model">hospital.patient</field>
+        <field name="arch" type="xml">
+            <search>
+                <group expand="1" string="Group By">
+                    <filter string="Name" name="name" domain="[]" context="{'group_by':'name'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action hospital.patient -->
+    <record id="action_patient" model="ir.actions.act_window">
+        <field name="name">Hospital Patient</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hospital.patient</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your First Patient !
+            </p>
+        </field>
+    </record>
+
+     <menuitem id="hospital_patient" name="Patient" parent="hospital.menu_hospital_root"
+              action="action_patient" sequence="30"/> 
+</odoo>
