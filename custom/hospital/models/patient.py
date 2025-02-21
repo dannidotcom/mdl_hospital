@@ -20,13 +20,6 @@ class SaleOrderInherit(models.Model):
 
     patient_name = fields.Char(string='Patient Name')
 
-
-class ResPartner(models.Model):
-    _inherit = 'res.partner'
-
-    company_type = fields.Selection(selection_add=[('om', 'Odoo Mates'), ('odoodev', 'Odoo Dev')])
-
-
 class HospitalPatient(models.Model):
     _name = 'hospital.patient'
     _inherit = ['mail.thread', 'mail.activity.mixin']
